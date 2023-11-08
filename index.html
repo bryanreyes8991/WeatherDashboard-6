@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="./style.css">
+<title>Weather Dashboard</title>
+</head>
+
+<body class="col-flex min-vh-100">
+  <header class="weather-h">
+    <h1 class="weather-t"> Weather Dashboard </h1>
+    <p> Search for a city and see how's the weather there!</p>
+  </header>
+
+  <main class="row-flex jcsb">
+    <div class="flex">
+        <div class="side-bars">
+            <h3 class="sidebar-h">Search for a city:</h3>
+            <form id="city-form" class="form-pad">
+                <input name="city" id="city" type="text" autofocus="true" class="form-input" />
+                <button type="submit" class="button">Search</button>
+            </form>
+        </div>
+
+        <div class="side-bars">
+            <h3 class="sidebar-h">Recent Cities:</h3>
+            <div id="previous-cities" class="form-pad">
+            </div>
+        </div>
+    </div>
+
+    <div class="flex">
+        <div id="current-city" class="city-info">
+            <p>The city will appear here</p>
+        </div>
+    </div>
+  </main>
+  <script src="./script.js"></script>
+</body>
+</html>
