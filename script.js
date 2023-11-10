@@ -1,7 +1,7 @@
-var cityForm = doucument.querySelector('#city-form');
+var cityForm = document.querySelector('#city-form');
 var cityInput = document.querySelector('#city');
 var cityContainer = document.querySelector('#current-city-cont');
-var forecastContainer = document.querySelector('#5-day-cast-cont');
+var forecastContainer = document.querySelector('#five-day-cast-cont');
 
 var APIKey = "9bb4b2c1ffd39a376fee55d90bd740ba";
 
@@ -11,7 +11,6 @@ function submitFormHandler(event) {
     var chosenCity = document.querySelector("#city").value.trim();
     if (chosenCity) {
         getCityWeather(chosenCity);
-        getForecast(chosenCity);
         cityInput.value = '';
         cityContainer.textContent = '';
         forecastContainer.textContent = '';
@@ -20,15 +19,14 @@ function submitFormHandler(event) {
     }
 };
 
-function getCityWeather() {
+function getCityWeather(chosenCity) {
     var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + chosenCity + "&appid=" + APIKey;
     fetch(apiUrl)
     .then(function (response) {
         if (response.ok) {
-            console.log(response);
             response.json().then(function (data) {
-                console.log(data);
-                displayCityWeather(data, chosenCity);
+                displayCityWeather(data);
+                getForecast(data.coord.lat, data.coord.lon, chosenCity)
             });
         } else {
             alert('Error: ' + response.statusText);
@@ -37,39 +35,35 @@ function getCityWeather() {
     .catch(function (error) {
         alert('Unable to get weather');
     });
-    localStorage.setItem(('Searched Cities', chosenCity).textContent()).appendTo().querySelector('#previous-cities');
+    localStorage.setItem('searchedCities', chosenCity);
+    document.querySelector('#previous-cities').append(chosenCity);
 };
 
 function displayCityWeather(data) {
     if (data) {
-        let html = '';
-        data.forEach(city => {
-            html += 
-            `<h2>${city}</h2>
-            <p>${city.dt_txt}</p>
-            <p>${weather.icon}</p>
-            <p>${main.temp}</p>
-            <p>${main.humidity}</p>
-            <p>${wind.speed}</p>`
-        }).appendTo().querySelector('#current-city-cont');
-    } else if (data) {
-        city.lon = lon;
-        city.lat = lat;
+        let html = 
+            `<h2>${data.name}</h2>
+            <p>${data.dt}</p>
+            <p>${data.weather[0].icon}</p>
+            <p>${data.main.temp}</p>
+            <p>${data.main.humidity}</p>
+            <p>${data.wind.speed}</p>`
+        
+       document.querySelector('#current-city-cont').innerHTML = html;
+    } else {
+        document.querySelector('#current-city-cont').innerHTML = '<h2>Not Found</h2>';
     }
 }
 
-function getForecast() {
-    lat; 
-    lon;
-    APIKey;
+
+function getForecast(lat, lon, chosenCity) {
     var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey;
     fetch(apiUrl)
     .then(function (response) {
         if (response.ok) {
-            console.log(response);
             response.json().then(function (data) {
                 console.log(data);
-                displayForecast(data, chosenCity);
+                displayForecast(data);
             });
         } else {
             alert('Error: ' + response.statusText);
@@ -82,16 +76,10 @@ function getForecast() {
 //the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
 function displayForecast(data) {
     if (data) {
-        let html = '';
-        data.forEach(city => {
-            html +=
-            `<h2>${city}</h2>
-            <p>${city.dt_txt}</p>
-            <p>${weather.icon}</p>
-            <p>${main.temp}</p>
-            <p>${main.humidity}</p>
-            <p>${wind.speed}</p>`
-        }).appendTo().querySelector('#5-day-cast-cont');
+        data.list.forEach(item => {
+            console.log(item)
+        })
+        // .appendTo().querySelector('#5-day-cast-cont');
     } return;
     
 }

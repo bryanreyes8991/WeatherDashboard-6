@@ -7,5 +7,3 @@ This application is intended to apply the use of fetching server request from an
 ![screenshot of deployed app](./screenshot/Screenshot%20(37).png)
 
 
-
-**PLAN ON REFACTORING WITH TA**
